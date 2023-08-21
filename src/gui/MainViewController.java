@@ -31,7 +31,7 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemDepartamentAction() {
-		System.out.println("Departament");
+		loadView("/gui/Departamento.fxml");
 	}
 
 	@FXML
@@ -44,12 +44,13 @@ public class MainViewController implements Initializable {
 
 	}
 
-	public void loadView(String uri) {
+	public  synchronized void loadView(String uri) {
 		try {
 			FXMLLoader loard = new FXMLLoader(getClass().getResource(uri));
 			VBox newVbox = loard.load();
 
 			Scene mainScene = Main.getmainScene();
+			
 			VBox mainVbox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
 			
 			Node mainMenu = mainVbox.getChildren().get(0);
@@ -58,6 +59,7 @@ public class MainViewController implements Initializable {
 			mainVbox.getChildren().addAll(newVbox.getChildren());
 		} catch (IOException e) {
 			Alerts.showAlert("IOException", "erro", e.getMessage(), AlertType.ERROR);
+					e.printStackTrace();
 		}
 	}
 
