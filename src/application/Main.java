@@ -1,5 +1,5 @@
 package application;
-	
+
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -8,29 +8,31 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 
-
 public class Main extends Application {
-	
-	private static Scene mainScene ;
+
+	private static Scene mainScene;
+
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			FXMLLoader loard = new FXMLLoader(getClass().getResource("/gui/MainView.fxml"));
-			ScrollPane scrollPane  = loard.load();
-			 mainScene = new Scene(scrollPane);
+			ScrollPane scrollPane = loard.load();
+			mainScene = new Scene(scrollPane);
 			scrollPane.setFitToHeight(true);
 			scrollPane.setFitToWidth(true);
 			primaryStage.setScene(mainScene);
 			primaryStage.setTitle("Sample JavaFX application");
 			primaryStage.show();
-		} catch(IOException e) {
+
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
 	public static Scene getmainScene() {
 		return mainScene;
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}

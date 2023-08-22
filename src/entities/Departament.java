@@ -1,51 +1,75 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package entities;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Departament implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	private Integer id;
-	private String nome;
-	public Departament() {}
+/**
+ *
+ * @author gueel
+ */
+public class Departament implements Serializable{
+    private Integer id;
+    private String nome;
+    
+    public Departament(){}
 
-	public Departament(Integer id, String nome) {
-		this.id = id;
-		this.nome = nome;
-	}
+    public Departament(Integer id, String name) {
+        this.id = id;
+        this.nome = name;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, nome);
-	}
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.id);
+        hash = 83 * hash + Objects.hashCode(this.nome);
+        return hash;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Departament other = (Departament) obj;
-		return Objects.equals(id, other.id) && Objects.equals(nome, other.nome);
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Departament other = (Departament) obj;
+        if (!Objects.equals(this.nome, other.nome)) {
+            return false;
+        }
+        return Objects.equals(this.id, other.id);
+    }
 
+    @Override
+    public String toString() {
+        return "Departament{" + "id=" + id + ", nome=" + nome + '}';
+    }
+
+    
+  
+    
 }

@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import application.Main;
 import gui.util.Alerts;
@@ -32,13 +33,14 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemDepartamentAction() {
-		loadView2("/gui/Departamento.fxml");
+		loadView("/gui/Departamento.fxml",(DepartamentViewController controller )-> {controller.setService(new DepartamentService());
+		controller.updateTableView();});
 	}
 	
 
 	@FXML
 	public void onMenuItemAbountAction() {
-		loadView("/gui/Abount.fxml");
+		loadView("/gui/Abount.fxml",x -> {});
 	}
 
 	@Override
@@ -46,7 +48,7 @@ public class MainViewController implements Initializable {
 
 	}
 
-	public  synchronized void loadView(String uri) {
+	public  synchronized <T>void loadView(String uri,Consumer<T> Inicializar) {
 		try {
 			FXMLLoader loard = new FXMLLoader(getClass().getResource(uri));
 			VBox newVbox = loard.load();
@@ -59,37 +61,14 @@ public class MainViewController implements Initializable {
 			mainVbox.getChildren().clear();
 			mainVbox.getChildren().add(mainMenu);
 			mainVbox.getChildren().addAll(newVbox.getChildren());
+			T controller = loard.getController();
+			Inicializar.accept(controller);
 		} catch (IOException e) {
 			Alerts.showAlert("IOException", "erro", e.getMessage(), AlertType.ERROR);
 					e.printStackTrace();
 		}
 	}
-	public  synchronized void loadView2(String uri) {
-		try {
-			FXMLLoader loard = new FXMLLoader(getClass().getResource(uri));
-			VBox newVbox = loard.load();
-
-			Scene mainScene = Main.getmainScene();
-			
-			VBox mainVbox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
-			
-			Node mainMenu = mainVbox.getChildren().get(0);
-			mainVbox.getChildren().clear();
-			mainVbox.getChildren().add(mainMenu);
-			mainVbox.getChildren().addAll(newVbox.getChildren());
-			
-			
-			 DepartamentViewController controller = loard.getController();
-			 controller.setService(new DepartamentService());
-			 controller.updateTableView();
-			
-			
-			
-		} catch (IOException e) {
-			Alerts.showAlert("IOException", "erro", e.getMessage(), AlertType.ERROR);
-					e.printStackTrace();
-		}
-	}
+	
 
 
 }
