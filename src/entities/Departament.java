@@ -8,6 +8,7 @@ public class Departament implements Serializable {
 	
 	private Integer id;
 	private String nome;
+	public Departament() {}
 
 	public Departament(Integer id, String nome) {
 		this.id = id;
