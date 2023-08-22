@@ -24,13 +24,12 @@ public class DepartamentDaoJDBC implements DepartamentDao {
 	}
 
 	@Override
-	public void insert(Departament obj) {
+	public  void insert(Departament obj) {
 		PreparedStatement pst = null;
 		try {
-			pst = conn.prepareStatement("INSERT INTO DEPARTMENT (ID,NAME) VALUES (?,?)",
+			pst = conn.prepareStatement("INSERT INTO DEPARTMENT (NAME) VALUES (?)",
 					Statement.RETURN_GENERATED_KEYS);
-			pst.setInt(1, obj.getId());
-			pst.setString(2, obj.getNome());
+			pst.setString(1, obj.getNome());
 			int row = pst.executeUpdate();
 			if (row > 0) {
 				ResultSet rs = pst.getGeneratedKeys();
@@ -80,14 +79,13 @@ public class DepartamentDaoJDBC implements DepartamentDao {
 	public Departament fidById(Integer id) {
 		PreparedStatement pst = null;
 		ResultSet rs = null;
-		Departament dep = new Departament();
+		Departament dep = null;
 		try {
 			pst = conn.prepareStatement("Select * from department where id=?");
 			pst.setInt(1, id);
 			rs = pst.executeQuery();
 			if (rs.next()) {
-				dep.setId(rs.getInt("Id"));
-				dep.setNome(rs.getString("Name"));
+				dep = new Departament(rs.getInt("id"), rs.getString("Name"));
 			}
 			return dep;
 

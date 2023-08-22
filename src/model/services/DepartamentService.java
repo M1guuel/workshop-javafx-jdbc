@@ -8,10 +8,14 @@ import model.Dao.DaoFactory;
 import model.Dao.DepartamentDao;
 
 public class DepartamentService {
-	
+
 	private DepartamentDao dao = DaoFactory.createDapartamentDao();
 
-public List<Departament> findAll(){
-	return dao.findAll();
+	public List<Departament> findAll() {
+		return dao.findAll();
+	}
+
+	public void insert(Departament obj) {
+		dao.insert(obj);
 	}
 }
