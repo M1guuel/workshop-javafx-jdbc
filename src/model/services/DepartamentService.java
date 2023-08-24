@@ -6,6 +6,7 @@ import java.util.List;
 import entities.Departament;
 import model.Dao.DaoFactory;
 import model.Dao.DepartamentDao;
+import model.Dao.impl.DepartamentDaoJDBC;
 
 public class DepartamentService {
 
@@ -17,5 +18,14 @@ public class DepartamentService {
 
 	public void insert(Departament obj) {
 		dao.insert(obj);
+	}
+
+	public void saveOrUpdate(Departament obj) {
+		if (obj != null) {
+			dao.insert(obj);
+
+		} else {
+			dao.update(obj);
+		}
 	}
 }

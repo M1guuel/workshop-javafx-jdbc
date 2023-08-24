@@ -24,11 +24,10 @@ public class DepartamentDaoJDBC implements DepartamentDao {
 	}
 
 	@Override
-	public  void insert(Departament obj) {
+	public void insert(Departament obj) {
 		PreparedStatement pst = null;
 		try {
-			pst = conn.prepareStatement("INSERT INTO DEPARTMENT (NAME) VALUES (?)",
-					Statement.RETURN_GENERATED_KEYS);
+			pst = conn.prepareStatement("INSERT INTO department (Name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
 			pst.setString(1, obj.getNome());
 			int row = pst.executeUpdate();
 			if (row > 0) {
@@ -43,7 +42,6 @@ public class DepartamentDaoJDBC implements DepartamentDao {
 			}
 		} catch (SQLException e) {
 			throw new db.DbExeption(e.getMessage());
-		} finally {
 		}
 	}
 

@@ -1,6 +1,5 @@
 package gui;
 
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -46,7 +45,7 @@ public class DepartamentViewController implements Initializable {
 	public void onBtNewAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
 		Departament obj = new Departament();
-		createDialogForm(obj,"/gui/DepartmenForm.fxml",parentStage);
+		createDialogForm(obj, "/gui/DepartmenForm.fxml", parentStage);
 	}
 
 	public void setService(DepartamentService service) {
@@ -75,25 +74,26 @@ public class DepartamentViewController implements Initializable {
 		tableViewDepartament.setItems(obsList);
 
 	}
-private void createDialogForm(Departament obj,String uri ,Stage parentStage) {
-	try {
-		FXMLLoader loard = new FXMLLoader(getClass().getResource(uri));
-		Pane pane = loard.load();
-		
-		DepartamentFortController controller = loard.getController();
-		controller.setDep(obj);
-		controller.updateFormData();
-		
-		
-		Stage dialogStage = new Stage();
-		dialogStage.setTitle("Entre com os dados do Departamento");
-		dialogStage.setScene(new Scene(pane));
-		dialogStage.setResizable(false);
-		dialogStage.initOwner(parentStage);
-		dialogStage.initModality(Modality.WINDOW_MODAL);
-		dialogStage.showAndWait();
-	} catch (IOException  e) {
-		Alerts.showAlert("IO EXCEPTION", "ERROR",e.getMessage(), AlertType.ERROR);
+
+	private void createDialogForm(Departament obj, String uri, Stage parentStage) {
+		try {
+			FXMLLoader loard = new FXMLLoader(getClass().getResource(uri));
+			Pane pane = loard.load();
+
+			DepartamentFortController controller = loard.getController();
+			controller.setEntity(obj);
+			controller.updateFormData();
+			controller.setService(new DepartamentService());
+
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Entre com os dados do Departamento");
+			dialogStage.setScene(new Scene(pane));
+			dialogStage.setResizable(false);
+			dialogStage.initOwner(parentStage);
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.showAndWait();
+		} catch (IOException e) {
+			Alerts.showAlert("IO EXCEPTION", "ERROR", e.getMessage(), AlertType.ERROR);
+		}
 	}
-}
 }
