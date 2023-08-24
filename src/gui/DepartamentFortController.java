@@ -1,10 +1,13 @@
 package gui;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import db.DbExeption;
 import entities.Departament;
+import gui.listener.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Constraints;
 import gui.util.Utils;
@@ -21,6 +24,7 @@ public class DepartamentFortController implements Initializable {
 
 	private DepartamentService service;
 	private Departament entity;
+	private List<DataChangeListener> dataChangeListener = new ArrayList<>();
 
 	@FXML
 	private TextField txtId;
@@ -41,21 +45,34 @@ public class DepartamentFortController implements Initializable {
 		this.entity = entity;
 	}
 
+public void subcribeDataChangeListener(DataChangeListener listener) {
+	dataChangeListener.add(listener);
+	
+}
+
 	@FXML
 	public void onBtSave(ActionEvent event) {
-		if(entity == null) {
+		if (entity == null) {
 			throw new IllegalStateException("Entity war null");
 		}
 		if (service == null) {
 			throw new IllegalStateException("Service was null");
 		}
 		try {
-		entity = getFormData();
-		service.saveOrUpdate(entity);
-		Utils.currentStage(event).close();
-		}catch(DbExeption e) {
-			Alerts.showAlert("Error saving object", null, e.getMessage(),AlertType.ERROR);
+			entity = getFormData();
+			service.saveOrUpdate(entity);
+			notifyChangeListeners();
+			Utils.currentStage(event).close();
+		} catch (DbExeption e) {
+			Alerts.showAlert("Error saving object", null, e.getMessage(), AlertType.ERROR);
 		}
+	}
+
+	private void notifyChangeListeners() {
+		for (DataChangeListener listener : dataChangeListener) {
+			listener.onDataChanged();
+		}
+		
 	}
 
 	private Departament getFormData() {
@@ -67,7 +84,8 @@ public class DepartamentFortController implements Initializable {
 
 	@FXML
 	public void onBtCancel(ActionEvent event) {
-		Utils.currentStage(event).close();;
+		Utils.currentStage(event).close();
+		;
 	}
 
 	public void updateFormData() {
