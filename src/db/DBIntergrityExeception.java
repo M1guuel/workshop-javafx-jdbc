@@ -8,6 +8,6 @@ import javax.swing.JOptionPane;
  */
 public class DBIntergrityExeception extends RuntimeException{
     public DBIntergrityExeception(String msg){
-       JOptionPane.showMessageDialog(null, msg);
+       super(msg);
     }
 }

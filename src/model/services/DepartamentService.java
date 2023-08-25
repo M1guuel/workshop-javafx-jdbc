@@ -21,11 +21,16 @@ public class DepartamentService {
 	}
 
 	public void saveOrUpdate(Departament obj) {
-		if (obj != null) {
+		if (obj.getId() == null) {
 			dao.insert(obj);
 
 		} else {
 			dao.update(obj);
 		}
+	}
+	
+	
+	public void remove(Departament obj) {
+		dao.deleteById(obj.getId());
 	}
 }

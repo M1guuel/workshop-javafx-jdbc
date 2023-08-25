@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import db.DBIntergrityExeception;
 import entities.Departament;
 import entities.Seller;
 import model.Dao.DepartamentDao;
@@ -49,9 +50,9 @@ public class DepartamentDaoJDBC implements DepartamentDao {
 	public void update(Departament obj) {
 		PreparedStatement pst = null;
 		try {
-			pst = conn.prepareStatement("UPDATE department set id=?, name=?");
-			pst.setInt(1, obj.getId());
-			pst.setString(2, obj.getNome());
+			pst = conn.prepareStatement("UPDATE department set name=? where id =?");
+			pst.setString(1, obj.getNome());
+			pst.setInt(2, obj.getId());
 			int row = pst.executeUpdate();
 
 		} catch (SQLException e) {
@@ -64,12 +65,12 @@ public class DepartamentDaoJDBC implements DepartamentDao {
 	public void deleteById(Integer id) {
 		PreparedStatement pst = null;
 		try {
-			pst = conn.prepareStatement("DELETE FROM departament WHERE id =?");
+			pst = conn.prepareStatement("DELETE FROM department WHERE id =?");
 			pst.setInt(1, id);
 			pst.executeUpdate();
 
 		} catch (SQLException e) {
-			throw new db.DbExeption(e.getMessage());
+			throw new DBIntergrityExeception(e.getMessage());
 		}
 	}
 

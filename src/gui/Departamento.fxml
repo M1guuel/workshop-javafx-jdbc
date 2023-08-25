@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="371.0" prefWidth="437.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="gui.DepartamentViewController">
+<VBox prefHeight="371.0" prefWidth="437.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DepartamentViewController">
    <children>
       <Label text="Registros  de departamento ">
          <padding>
@@ -28,14 +28,13 @@
             </Button>
         </items>
       </ToolBar>
-      <TableView fx:id="tableViewDepartament" prefHeight="316.0" prefWidth="437.0">
+      <TableView fx:id="tableViewDepartament" prefHeight="196.0" prefWidth="437.0">
         <columns>
           <TableColumn fx:id="tbColumnId" prefWidth="75.0" text="ID" />
           <TableColumn fx:id="tbColumnName" prefWidth="75.0" text="NOME" />
+            <TableColumn fx:id="tableColumnEDIT" prefWidth="75.0" />
+            <TableColumn fx:id="tableColumnREMOVE" prefWidth="75.0" />
         </columns>
-         <padding>
-            <Insets top="100.0" />
-         </padding>
       </TableView>
    </children>
 </VBox>
