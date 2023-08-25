@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -25,12 +28,16 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.services.DepartamentService;
 import model.services.SellerService;
 
 public class SellerListController implements Initializable, DataChangeListener {
 
-	public SellerService service;
+	private SellerService service;
+
 
 	@FXML
 	private TableView<Seller> tableViewSeller;
@@ -58,11 +65,12 @@ public class SellerListController implements Initializable, DataChangeListener {
 	public void onBtNewAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
 		Seller obj = new Seller();
-		createDialogForm(obj, "/gui/Seller.fxml", parentStage);
+		createDialogForm(obj, "/gui/SellerForm.fxml", parentStage);
 	}
 
 	public void setService(SellerService service) {
 		this.service = service;
+	
 	}
 
 	@Override
@@ -97,27 +105,28 @@ public class SellerListController implements Initializable, DataChangeListener {
 	}
 
 	private void createDialogForm(Seller obj, String uri, Stage parentStage) {
-//			try {
-//				FXMLLoader loard = new FXMLLoader(getClass().getResource(uri));
-//				Pane pane = loard.load();
-//	
-//				SellerFortController controller = loard.getController();
-//	
-//				controller.setEntity(obj);
-//				controller.updateFormData();
-//				controller.subcribeDataChangeListener(this);
-//				controller.setService(new SellerService());
-//	
-//				Stage dialogStage = new Stage();
-//				dialogStage.setTitle("Entre com os dados do Seller");
-//				dialogStage.setScene(new Scene(pane));
-//				dialogStage.setResizable(false);
-//				dialogStage.initOwner(parentStage);
-//				dialogStage.initModality(Modality.WINDOW_MODAL);
-//				dialogStage.showAndWait();
-//			} catch (IOException e) {
-//				Alerts.showAlert("IO EXCEPTION", "ERROR", e.getMessage(), AlertType.ERROR);
-//			}
+			try {
+				FXMLLoader loard = new FXMLLoader(getClass().getResource(uri));
+				Pane pane = loard.load();
+	
+				SellerFortController controller = loard.getController();
+	
+				controller.setEntity(obj);
+				controller.updateFormData();
+				controller.subcribeDataChangeListener(this);
+				controller.setServices(new SellerService(),new DepartamentService());
+				controller.loardAssociaterObjects();
+				Stage dialogStage = new Stage();
+				dialogStage.setTitle("Entre com os dados do Seller");
+				dialogStage.setScene(new Scene(pane));
+				dialogStage.setResizable(false);
+				dialogStage.initOwner(parentStage);
+				dialogStage.initModality(Modality.WINDOW_MODAL);
+				dialogStage.showAndWait();
+			} catch (IOException e) {
+				e.printStackTrace();
+				Alerts.showAlert("IO EXCEPTION", "ERROR", e.getMessage(), AlertType.ERROR);
+			}
 	}
 
 	@Override
@@ -139,7 +148,7 @@ public class SellerListController implements Initializable, DataChangeListener {
 					return;
 				}
 				setGraphic(button);
-				button.setOnAction(event -> createDialogForm(obj, "/gui/Seller.fxml", Utils.currentStage(event)));
+				button.setOnAction(event -> createDialogForm(obj, "/gui/SellerForm.fxml", Utils.currentStage(event)));
 			}
 		});
 	}

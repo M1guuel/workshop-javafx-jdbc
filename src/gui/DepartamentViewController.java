@@ -107,6 +107,7 @@
 				dialogStage.initModality(Modality.WINDOW_MODAL);
 				dialogStage.showAndWait();
 			} catch (IOException e) {
+				e.printStackTrace();
 				Alerts.showAlert("IO EXCEPTION", "ERROR", e.getMessage(), AlertType.ERROR);
 			}
 		}
